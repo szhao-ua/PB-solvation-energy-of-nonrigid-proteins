@@ -1,0 +1,51 @@
+read
+    mol pqr solvent.pqr
+end
+
+# solvated state
+elec name solvated
+  mg-manual
+  dime 225 225 225
+  grid 0.50 0.50 0.50
+  gcent mol 1
+  mol 1
+  npbe
+  bcfl sdh
+  pdie 1.0
+  sdie 80.0
+  ion charge  1 conc 0.150 radius 2.0
+  ion charge -1 conc 0.150 radius 2.0
+  chgm spl0
+  srfm mol
+  srad 1.4
+  swin 0.3
+  sdens 10.0
+  temp 298.15
+  calcenergy total
+  calcforce no
+end
+
+# reference state in vacuum
+elec name reference
+  mg-manual
+  dime 225 225 225
+  grid 0.50 0.50 0.50
+  gcent mol 1
+  mol 1
+  npbe
+  bcfl sdh
+  pdie 1.0
+  sdie 1.0
+  chgm spl0
+  srfm mol
+  srad 1.4
+  swin 0.3
+  sdens 10.0
+  temp 298.15
+  calcenergy total
+  calcforce no
+end
+
+print elecEnergy solvated - reference end
+
+quit
