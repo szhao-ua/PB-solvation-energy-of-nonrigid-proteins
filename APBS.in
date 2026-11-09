@@ -1,38 +1,38 @@
-# Protein Solvation Energy Calculation
-
 read
-    mol pqr data-TIP3P/1TG0.pqr
+    mol pqr solvent.pqr
 end
 
-# --- SOLVATED STATE (in water) ---
+# solvated state
 elec name solvated
-  mg-manual                # Specify the mode for APBS to run
-  dime 97 97 97            # The grid dimensions
-  grid 0.33 0.33 0.33      # Grid spacing
-  gcent mol 1              # Center the grid on molecule 1
-  mol 1                    # Perform the calculation on molecule 1
-  npbe                     # Solve the nonlinear Poisson-Boltzmann equation
-  bcfl sdh                 # single Debye-Hückel boundary conditions
-  pdie 1.0                 # Solute dielectric
-  sdie 80                  # Solvent dielectric
-  chgm spl0                # Spline-based discretization of the delta functions
-  srfm mol                 # Molecular surface definition
-  srad 1.4                 # Solvent probe radius (for molecular surface)
-  swin 0.3                 # Solvent surface spline window (not used here)
-  sdens 10.0               # Sphere density for accessibility object
-  temp 298.15              # Temperature
-  calcenergy total         # Calculate energies
-  calcforce no             # Do not calculate forces
-end
-
-# --- REFERENCE STATE (in vacuum, sdie=1) ---
-elec name reference
   mg-manual
-  dime 97 97 97
-  grid 0.33 0.33 0.33
+  dime 225 225 225
+  grid 0.50 0.50 0.50
   gcent mol 1
   mol 1
-  lpbe
+  npbe
+  bcfl sdh
+  pdie 1.0
+  sdie 80.0
+  ion charge  1 conc 0.150 radius 2.0
+  ion charge -1 conc 0.150 radius 2.0
+  chgm spl0
+  srfm mol
+  srad 1.4
+  swin 0.3
+  sdens 10.0
+  temp 298.15
+  calcenergy total
+  calcforce no
+end
+
+# reference state in vacuum
+elec name reference
+  mg-manual
+  dime 225 225 225
+  grid 0.50 0.50 0.50
+  gcent mol 1
+  mol 1
+  npbe
   bcfl sdh
   pdie 1.0
   sdie 1.0
@@ -46,7 +46,6 @@ elec name reference
   calcforce no
 end
 
-# Print solvation energy = solvated - reference
 print elecEnergy solvated - reference end
 
 quit
