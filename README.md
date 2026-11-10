@@ -74,11 +74,11 @@ $$1\,\text{kT} = 0.5922\,\text{kcal/mol}$$
 
 #### Using APBS
 
-Similarly, to run tests using APBS, we use the following input setup (also in `APBS.in`). Detailed descriptions of these parameters can be found in the [APBS User Manual](https://apbs.readthedocs.io/en/latest/using/examples/solvation-energies.html#polar-solvation). The grid spacing of 0.5 Å on a 225³ mesh gives a cubic box of side 112 Å, which holds every solute in the set with at least 20 Å of padding. Both `elec` blocks are centred on the same molecule, so the two states share one grid.
+Similarly, to run tests using APBS, we use the following input setup (also in `APBS.in`). Detailed descriptions of these parameters can be found in the [APBS User Manual](https://apbs.readthedocs.io/en/latest/using/examples/solvation-energies.html#polar-solvation). The grid spacing of 0.5 Å on a 225³ mesh gives a cubic box of side 112 Å, which holds every solute in the set with at least 20 Å of padding. Both `elec` blocks are centred on the same molecule, so the two states share one grid. Here `solvent.pqr` and `vacuum.pqr` are a protein's structures from `data-TIP3P/` and `data-Xtal/`; `examples/example2_proteins/run_apbs.py` copies them into place for each protein.
 
 ```text
 read
-    mol pqr data-TIP3P/1TG0.pqr
+    mol pqr solvent.pqr
 end
 
 # solvated state
@@ -134,8 +134,8 @@ For the uncorrected dual-structure calculation, the vacuum structure is read as 
 
 ```text
 read
-    mol pqr data-TIP3P/1TG0.pqr
-    mol pqr data-Xtal/1TG0.pqr
+    mol pqr solvent.pqr
+    mol pqr vacuum.pqr
 end
 ...
 # reference state in vacuum, on the vacuum structure (mol 2) and the same grid
@@ -184,8 +184,8 @@ The `examples/` directory contains the input structures, solver results and scri
 
 ```bash
 cd examples/example1_two_atom && python tables.py --check     # Table 1, Tables S1-S3
-cd examples/example2_proteins && python protein_stats.py --check   # Table 2, Table S5, statistics
-cd examples/example2_proteins && python figures.py                # Fig. 2, Fig. S1
+cd examples/example2_proteins && python protein_stats.py --check   # Table 2, Tables S4-S5, statistics
+cd examples/example2_proteins && python figures.py                # Fig. 2, Figs. S1-S2
 ```
 
 The `run_apbs.py` script in each example regenerates the APBS results. See [`examples/README.md`](examples/README.md) for details.
